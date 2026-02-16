@@ -1,0 +1,90 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-surface: var(--surface);
+  --color-surface-highlight: var(--surface-highlight);
+
+  --color-neon-primary: var(--neon-primary);
+  --color-neon-secondary: var(--neon-secondary);
+
+  --color-success: var(--success);
+  --color-error: var(--error);
+
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+
+  --font-sans: var(--font-ntype-regular), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-ntype-headline), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-lettera-mono), ui-monospace, SFMono-Regular, monospace;
+  --font-ndot: var(--font-ndot), ui-monospace, SFMono-Regular, monospace;
+}
+
+:root {
+  /* Neural Lab Theme - Dark Mode Only */
+  --background: #050507;
+  --foreground: #FFFFFF;
+
+  --surface: #0F0F16;
+  --surface-highlight: #181825;
+
+  --neon-primary: #7C3AED;
+  --neon-secondary: #A78BFA;
+
+  --success: #10B981;
+  --error: #EF4444;
+
+  --text-primary: #FFFFFF;
+  --text-secondary: #94A3B8;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+}
+
+/* Custom Utilities / Effects */
+.glass-panel {
+  background: rgba(15, 15, 22, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.neon-glow {
+  box-shadow: 0 0 10px rgba(124, 58, 237, 0.3);
+}
+
+.neon-border {
+  border: 1px solid var(--neon-primary);
+  box-shadow: 0 0 5px var(--neon-primary);
+}
+
+@keyframes spotlight {
+  0% {
+    opacity: 0;
+    transform: translate(-72%, -62%) scale(0.5);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%,-40%) scale(1);
+  }
+}
+
+.animate-spotlight {
+  animation: spotlight 2s ease .75s 1 forwards;
+}
+
+/* Premium Selection */
+::selection {
+  background: var(--neon-primary);
+  color: white;
+}
+
+/* Text Glow Utility */
+.text-glow {
+  text-shadow: 0 0 20px var(--neon-primary);
+}

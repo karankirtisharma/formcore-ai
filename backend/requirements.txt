@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+mediapipe
+protobuf<5.0.0
+opencv-python
+numpy
+pydantic
+python-multipart
+imageio-ffmpeg
