@@ -9,10 +9,8 @@ import { ResultsView } from './ResultsView';
 import { BentoCard } from '@/components/ui/BentoCard';
 import { ScanLine } from 'lucide-react';
 
-import { ExerciseSelector } from './ExerciseSelector';
-
 export function AnalyzerContainer() {
-    const { mode, setMode, status, setStatus, setResults, exercise, setExercise } = useAnalyzerStore();
+    const { mode, setMode, status, setStatus, setResults, exercise, resultData } = useAnalyzerStore();
 
     const handleFileSelect = async (file: File) => {
         setStatus('uploading');
@@ -36,15 +34,40 @@ export function AnalyzerContainer() {
 
             const data = await response.json();
 
-            setStatus('processing');
-            // Add a small delay for effect if desired, or set immediately
-            setTimeout(() => {
-                setResults(data);
-            }, 500);
+            if (file.type.startsWith('video/')) {
+                setStatus('processing');
+                const jobId = data.job_id;
+                
+                // Poll for result
+                const pollInterval = setInterval(async () => {
+                    try {
+                        const pollRes = await fetch(`${API_BASE_URL}/result/${jobId}`);
+                        const pollData = await pollRes.json();
+                        
+                        if (pollData.status === 'complete') {
+                            clearInterval(pollInterval);
+                            setResults(pollData.result);
+                        } else if (pollData.status === 'error') {
+                            clearInterval(pollInterval);
+                            setStatus('idle');
+                            alert('Video analysis failed: ' + pollData.message);
+                        }
+                    } catch (e) {
+                        clearInterval(pollInterval);
+                        setStatus('idle');
+                        alert('Error polling status');
+                    }
+                }, 2000);
+            } else {
+                setStatus('processing');
+                setTimeout(() => {
+                    setResults(data);
+                }, 500);
+            }
 
         } catch {
             setStatus('idle');
-            alert('Error analyzing image. Ensure backend is running.');
+            alert('Error analyzing media. Ensure backend is running.');
         }
     };
 
@@ -62,7 +85,6 @@ export function AnalyzerContainer() {
 
                 <div className="flex flex-col md:flex-row items-center gap-6 z-20">
                     <ModeSelector mode={mode} setMode={setMode} />
-                    <ExerciseSelector exercise={exercise} setExercise={setExercise} disabled={status === 'processing' || status === 'uploading'} />
                 </div>
 
                 <div className="w-full max-w-5xl relative">
@@ -89,7 +111,12 @@ export function AnalyzerContainer() {
                                 >
                                     {mode === 'image' && <DropZone mode="image" onFileSelect={handleFileSelect} />}
                                     {mode === 'video' && <DropZone mode="video" onFileSelect={handleFileSelect} />}
-                                    {mode === 'live' && <WebcamStage />}
+                                    {mode === 'live' && (
+                                        <div className="flex flex-col gap-6 w-full">
+                                            <WebcamStage />
+                                            {resultData && <ResultsView />}
+                                        </div>
+                                    )}
                                 </motion.div>
                             )}
                         </AnimatePresence>

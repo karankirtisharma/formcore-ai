@@ -3,8 +3,9 @@ import { create } from 'zustand';
 export interface AnalysisResult {
     score: number;
     mistakes: string[];
-    image_base64?: string;
-    video_base64?: string;
+    image_url?: string;
+    video_url?: string;
+    detected_exercise?: string;
 }
 
 interface AnalyzerState {
@@ -20,6 +21,7 @@ interface AnalyzerState {
     setExercises: (exercises: string[]) => void;
     startProcessing: () => void;
     setResults: (data: AnalysisResult) => void;
+    setLiveResults: (data: AnalysisResult) => void;
     reset: () => void;
 }
 
@@ -27,7 +29,7 @@ export const useAnalyzerStore = create<AnalyzerState>((set) => ({
     mode: 'image',
     status: 'idle',
     resultData: null,
-    exercise: 'squat',
+    exercise: 'auto',
     exercises: [],
 
     setMode: (mode) => set({ mode, status: 'idle', resultData: null }),
@@ -36,5 +38,6 @@ export const useAnalyzerStore = create<AnalyzerState>((set) => ({
     setExercises: (exercises) => set({ exercises }),
     startProcessing: () => set({ status: 'processing' }),
     setResults: (data) => set({ resultData: data, status: 'complete' }),
+    setLiveResults: (data) => set({ resultData: data }),
     reset: () => set({ status: 'idle', resultData: null }),
 }));

@@ -228,8 +228,8 @@ Returns all supported exercise types.
 {
   "score": 85,
   "mistakes": ["Torso leaning (35°). Stay upright."],
-  "image_base64": "<annotated frame>",
-  "video_base64": "<tracked video, video endpoint only>"
+  "image_url": "/media/<uuid>.jpg",
+  "video_url": "/media/<uuid>.mp4"
 }
 ```
 

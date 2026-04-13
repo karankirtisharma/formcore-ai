@@ -1,20 +1,9 @@
-import dynamic from 'next/dynamic';
+import { DynamicAnalyzer } from '@/components/analyzer/DynamicAnalyzer';
 import { GlowingEffect } from '@/components/ui/GlowingEffect';
 import { Navbar } from '@/components/layout/Navbar';
 import { Hero } from '@/components/layout/Hero';
 import { Features } from '@/components/sections/Features';
 import { Footer } from '@/components/layout/Footer';
-
-const AnalyzerContainer = dynamic(
-  () => import('@/components/analyzer/AnalyzerContainer').then(mod => mod.AnalyzerContainer),
-  {
-    loading: () => (
-      <div className="w-full max-w-6xl mx-auto px-6 py-24 flex items-center justify-center">
-        <div className="text-text-secondary font-mono text-sm animate-pulse">Loading analyzer...</div>
-      </div>
-    ),
-  }
-);
 
 export default function Home() {
   return (
@@ -47,7 +36,7 @@ export default function Home() {
       <Navbar />
       <Hero />
       <Features />
-      <AnalyzerContainer />
+      <DynamicAnalyzer />
       <Footer />
     </main>
   );

@@ -15,18 +15,21 @@ const ntypeHeadline = localFont({
   src: "../public/fonts/NType82-Headline.otf",
   variable: "--font-ntype-headline",
   display: "swap",
+  preload: false,
 });
 
 const ntypeRegular = localFont({
   src: "../public/fonts/NType82-Regular.otf",
   variable: "--font-ntype-regular",
   display: "swap",
+  preload: false,
 });
 
 const letteraMono = localFont({
   src: "../public/fonts/LetteraMonoLL-Regular.otf",
   variable: "--font-lettera-mono",
   display: "swap",
+  preload: false,
 });
 
 export const metadata: Metadata = {

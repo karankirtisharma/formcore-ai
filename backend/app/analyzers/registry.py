@@ -22,27 +22,20 @@ _REGISTRY: dict[str, tuple[str, str]] = {
 
 _instances: dict[str, BaseAnalyzer] = {}
 
-
 class ExerciseRegistry:
 
     @classmethod
     def get_analyzer(cls, exercise_type: str) -> BaseAnalyzer:
         exercise_type = exercise_type.lower()
-
-        if exercise_type in _instances:
-            return _instances[exercise_type]
-
-        if exercise_type not in _REGISTRY:
-            # Fallback to squat
+        if exercise_type not in _instances:
             exercise_type = "squat"
-
-        module_path, class_name = _REGISTRY[exercise_type]
-        module = importlib.import_module(module_path)
-        analyzer = getattr(module, class_name)()
-
-        _instances[exercise_type] = analyzer
-        return analyzer
+        return _instances[exercise_type]
 
     @classmethod
     def list_exercises(cls) -> list[str]:
-        return sorted(_REGISTRY.keys())
+        if not _instances:
+            for ex, (mod_path, cls_name) in _REGISTRY.items():
+                module = importlib.import_module(mod_path)
+                _instances[ex] = getattr(module, cls_name)()
+        return sorted(_instances.keys())
+

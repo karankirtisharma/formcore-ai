@@ -7,13 +7,14 @@ import { Terminal } from '@/components/ui/Terminal';
 import { motion } from 'framer-motion';
 
 import { memo } from 'react';
+import { API_BASE_URL } from '@/lib/api';
 
-const MediaDisplay = memo(({ video_base64, image_base64 }: { video_base64?: string, image_base64?: string }) => (
+const MediaDisplay = memo(({ video_url, image_url }: { video_url?: string, image_url?: string }) => (
     <BentoCard glow className="relative overflow-hidden flex items-center justify-center bg-black/50 border-neon-primary/20">
-        {video_base64 ? (
+        {video_url ? (
             <>
                 <video
-                    src={`data:video/mp4;base64,${video_base64}`}
+                    src={`${API_BASE_URL}${video_url}`}
                     controls
                     autoPlay
                     loop
@@ -24,11 +25,11 @@ const MediaDisplay = memo(({ video_base64, image_base64 }: { video_base64?: stri
                     VIDEO_FEED :: TRACKED
                 </div>
             </>
-        ) : image_base64 ? (
+        ) : image_url ? (
             <>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                    src={`data:image/jpeg;base64,${image_base64}`}
+                    src={`${API_BASE_URL}${image_url}`}
                     alt="Pose Analysis Result"
                     className="w-full rounded-lg object-contain z-10"
                 />
@@ -48,7 +49,7 @@ export function ResultsView() {
 
     if (!resultData) return null;
 
-    const { score, mistakes, image_base64, video_base64 } = resultData;
+    const { score, mistakes, image_url, video_url } = resultData;
 
     // Generate terminal lines based on analysis
     const terminalLines = [
@@ -73,7 +74,7 @@ export function ResultsView() {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 {/* Visual Analysis Column */}
                 <div className="lg:col-span-2 space-y-6">
-                    <MediaDisplay video_base64={video_base64} image_base64={image_base64} />
+                    <MediaDisplay video_url={video_url} image_url={image_url} />
                 </div>
 
                 {/* Data Column */}
