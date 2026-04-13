@@ -58,7 +58,7 @@ export function WebcamStage() {
             clearInterval(intervalId);
             abortController.abort();
         };
-    }, [exercise, setResults]);
+    }, [exercise, setLiveResults]);
 
     return (
         <div className="relative w-full aspect-video rounded-xl overflow-hidden bg-black/50 border border-white/10 shadow-2xl">
