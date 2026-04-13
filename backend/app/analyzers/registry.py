@@ -27,6 +27,8 @@ class ExerciseRegistry:
     @classmethod
     def get_analyzer(cls, exercise_type: str) -> BaseAnalyzer:
         exercise_type = exercise_type.lower()
+        if not _instances:
+            cls.list_exercises()
         if exercise_type not in _instances:
             exercise_type = "squat"
         return _instances[exercise_type]

@@ -27,8 +27,8 @@ venv/
 backend/app/__pycache__/
 backend/app/analyzers/__pycache__/
 
-# MediaPipe model (large binary)
-backend/app/models/*.task
+# MediaPipe model (included for ease of use)
+!backend/app/models/*.task
 
 # IDE
 .vscode/

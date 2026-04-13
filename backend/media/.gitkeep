@@ -1,0 +1,4 @@
+# Keep this directory for media uploads
+*.jpg
+*.mp4
+!.gitkeep
